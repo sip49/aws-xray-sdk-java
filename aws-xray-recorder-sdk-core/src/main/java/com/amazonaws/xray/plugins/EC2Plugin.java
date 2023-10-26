@@ -110,7 +110,7 @@ public class EC2Plugin implements Plugin {
 
         if (StringValidator.isNullOrBlank(programData)) {
             for (Path root : fs.getRootDirectories()) {
-                if (root.toString().equals(LINUX_ROOT)) {
+                if (LINUX_ROOT.equals(root.toString())) {
                     filePath = LINUX_ROOT + LINUX_PATH;
                     break;
                 }

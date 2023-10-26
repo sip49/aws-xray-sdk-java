@@ -373,13 +373,13 @@ public class TracingInterceptor implements ExecutionInterceptor {
         if (exception != null) {
             requestId = extractRequestIdFromThrowable(exception);
         }
-        if (requestId == null || requestId.equals(UNKNOWN_REQUEST_ID)) {
+        if (requestId == null || UNKNOWN_REQUEST_ID.equals(requestId)) {
             requestId = extractRequestIdFromResponse(response);
         }
-        if (requestId == null || requestId.equals(UNKNOWN_REQUEST_ID)) {
+        if (requestId == null || UNKNOWN_REQUEST_ID.equals(requestId)) {
             requestId = extractRequestIdFromHttp(httpResponse);
         }
-        if (requestId != null && !requestId.equals(UNKNOWN_REQUEST_ID)) {
+        if (requestId != null && !UNKNOWN_REQUEST_ID.equals(requestId)) {
             subsegment.putAws(EntityDataKeys.AWS.REQUEST_ID_KEY, requestId);
         }
     }
