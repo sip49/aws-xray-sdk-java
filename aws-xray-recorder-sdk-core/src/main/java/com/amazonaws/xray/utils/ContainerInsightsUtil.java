@@ -16,6 +16,7 @@
 package com.amazonaws.xray.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -193,7 +194,7 @@ public class ContainerInsightsUtil {
         try {
             File tokenFile = Paths.get(K8S_CRED_FOLDER, K8S_CRED_TOKEN_SUFFIX).toFile();
             tokenReader = new BufferedReader(new InputStreamReader(new FileInputStream(tokenFile), StandardCharsets.UTF_8));
-            return String.format("Bearer %s", tokenReader.readLine());
+            return String.format("Bearer %s", BoundedLineReader.readLine(tokenReader, 5_000_000));
         } catch (IOException e) {
             logger.warn("Unable to read K8s credential file.", e);
         } finally {
