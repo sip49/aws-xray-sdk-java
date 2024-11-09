@@ -17,6 +17,7 @@ package com.amazonaws.xray.strategy.sampling.reservoir;
 
 import static com.amazonaws.xray.strategy.sampling.reservoir.Reservoir.NANOS_PER_DECISECOND;
 import static com.amazonaws.xray.strategy.sampling.reservoir.Reservoir.NANOS_PER_SECOND;
+import java.security.SecureRandom;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -127,7 +128,7 @@ public class ReservoirTest {
         Reservoir reservoir = new Reservoir(rate);
 
         // parallel to ensure there aren't any unsynchronized race conditions
-        long passed = new Random().longs(100000).parallel()
+        long passed = new SecureRandom().longs(100000).parallel()
             .filter(i -> reservoir.take()).count();
 
         assertEquals(rate, passed);

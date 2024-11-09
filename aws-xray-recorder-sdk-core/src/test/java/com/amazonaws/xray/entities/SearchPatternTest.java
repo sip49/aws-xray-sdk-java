@@ -15,6 +15,7 @@
 
 package com.amazonaws.xray.entities;
 
+import java.security.SecureRandom;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
@@ -177,7 +178,7 @@ class SearchPatternTest {
         // This blew out the stack on a recursive version of wildcardMatch
         final char[] t = new char[] { 'a', 'b', 'c', 'd' };
         StringBuffer text = new StringBuffer("a");
-        Random r = new Random();
+        Random r = new SecureRandom();
         int size = 8192;
 
         for (int i = 0; i < size; i++) {
