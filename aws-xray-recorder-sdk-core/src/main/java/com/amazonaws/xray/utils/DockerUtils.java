@@ -15,6 +15,7 @@
 
 package com.amazonaws.xray.utils;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,7 +81,7 @@ public class DockerUtils {
                  BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
                 String line;
                 do {
-                    line = reader.readLine();
+                    line = BoundedLineReader.readLine(reader, 5_000_000);
 
                     if (line == null) {
                         logger.warn("Failed to read container ID because " + cgroupLocation.toString()
