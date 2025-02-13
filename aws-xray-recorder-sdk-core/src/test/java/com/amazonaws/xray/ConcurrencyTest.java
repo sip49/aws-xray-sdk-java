@@ -20,6 +20,7 @@ import com.amazonaws.xray.entities.Segment;
 import com.amazonaws.xray.entities.SegmentImpl;
 import com.amazonaws.xray.entities.SubsegmentImpl;
 import com.amazonaws.xray.strategy.sampling.LocalizedSamplingStrategy;
+import java.security.SecureRandom;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -79,7 +80,7 @@ class ConcurrencyTest {
 
         Thread thread1 = new Thread(() -> {
             while (true) {
-                subseg.addPrecursorId("ID" + new Random().nextInt());
+                subseg.addPrecursorId("ID" + new SecureRandom().nextInt());
             }
         });
         thread1.start();
