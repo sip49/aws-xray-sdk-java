@@ -18,6 +18,8 @@ package com.amazonaws.xray.plugins;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,8 +54,8 @@ class EC2MetadataFetcher {
     EC2MetadataFetcher(String endpoint) {
         String urlBase = "http://" + endpoint;
         try {
-            this.identityDocumentUrl = new URL(urlBase + "/latest/dynamic/instance-identity/document");
-            this.tokenUrl = new URL(urlBase + "/latest/api/token");
+            this.identityDocumentUrl = Urls.create(urlBase + "/latest/dynamic/instance-identity/document", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+            this.tokenUrl = Urls.create(urlBase + "/latest/api/token", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Illegal endpoint: " + endpoint);
         }
