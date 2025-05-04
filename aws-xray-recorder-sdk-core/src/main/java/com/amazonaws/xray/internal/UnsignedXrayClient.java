@@ -34,6 +34,8 @@ import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -101,8 +103,8 @@ public class UnsignedXrayClient {
     // Visible for testing
     UnsignedXrayClient(String endpoint) {
         try {
-            getSamplingRulesEndpoint = new URL(endpoint + "/GetSamplingRules");
-            getSamplingTargetsEndpoint = new URL(endpoint + "/SamplingTargets");
+            getSamplingRulesEndpoint = Urls.create(endpoint + "/GetSamplingRules", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
+            getSamplingTargetsEndpoint = Urls.create(endpoint + "/SamplingTargets", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Invalid URL: " + endpoint, e);
         }
