@@ -18,6 +18,8 @@ package com.amazonaws.xray.plugins;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,7 +54,7 @@ class ECSMetadataFetcher {
         }
 
         try {
-            this.containerUrl = new URL(endpoint);
+            this.containerUrl = Urls.create(endpoint, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Illegal endpoint: " + endpoint);
         }
